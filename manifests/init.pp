@@ -1039,7 +1039,7 @@ class ssh (
 
   if $manage_root_ssh_config_real == true {
 
-    include ::common
+    include common
 
     common::mkdir_p { "${::root_home}/.ssh": }
 
