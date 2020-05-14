@@ -116,6 +116,7 @@ class ssh (
   $root_ssh_config_content                = "# This file is being maintained by Puppet.\n# DO NOT EDIT\n",
   $sshd_config_tcp_keepalive              = undef,
   $sshd_config_use_privilege_separation   = undef,
+  $sshd_config_permitopen                 = [],
   $sshd_config_permittunnel               = undef,
   $sshd_config_hostcertificate            = undef,
   $sshd_config_trustedusercakeys          = undef,
@@ -596,6 +597,9 @@ class ssh (
     default: { $sshd_config_tcp_keepalive_real = $sshd_config_tcp_keepalive }
   }
 
+  # copying the variable to maintain the foo_real convention in the template
+  $sshd_config_permitopen_real = $sshd_config_permitopen
+
   case $sshd_config_permittunnel {
     'unset': { $sshd_config_permittunnel_real = undef }
     undef:   { $sshd_config_permittunnel_real = $default_sshd_config_permittunnel }
@@ -1035,7 +1039,7 @@ class ssh (
 
   if $manage_root_ssh_config_real == true {
 
-    include ::common
+    include common
 
     common::mkdir_p { "${::root_home}/.ssh": }
 
